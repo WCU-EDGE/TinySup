@@ -1,9 +1,13 @@
-FROM ubuntu:18.04
+FROM alpine:3.11.6
 LABEL author="Linh B. Ngo" email="lngo@wcupa.edu"
 LABEL version="0.1"
 
-COPY installation /installation
+RUN apk update
+RUN apk add --no-cache --verbose nfs-utils bash iproute2 openssh iputils
+RUN rm -rf /var/cache/apk /tmp /sbin/halt /sbin/poweroff /sbin/reboot
+RUN mkdir -p /var/lib/nfs/rpc_pipefs /var/lib/nfs/v4recovery
+RUN echo "rpc_pipefs    /var/lib/nfs/rpc_pipefs rpc_pipefs      defaults        0       0" >> /etc/fstab
+RUN echo "nfsd  /proc/fs/nfsd   nfsd    defaults        0       0" >> /etc/fstab
 
-RUN apt-get update -qqq
-RUN apt-get install -y -qqq apt-utils kmod netbase
-RUN apt-get install -y -qqq openssh-server ufw iputils-ping iproute2
+COPY installation /installation
+COPY .bashrc /root/.bashrc

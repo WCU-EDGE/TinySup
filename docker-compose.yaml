@@ -4,25 +4,20 @@ services:
     image: ldap:latest
     cap_add:
         - SYS_ADMIN
-    environment:
-      - "DEBIAN_FRONTEND=noninteractive"
     privileged: true
+    depends_on:
+      - login-server
     networks:
       default:
         ipv4_address: 192.168.0.3
   login-server:
     image: head:latest
     volumes:
-      - ./docker/head/home:/home
-      - ./docker/head/mpishare:/mpishare
-      - ./docker/head/opt:/opt
-      - ./docker/head/software:/software
+      - ./docker/head/nfs:/nfs
     cap_add:
         - SYS_ADMIN
     ports:
       - "2222:22"
-    depends_on:
-      - ldap-server
     privileged: true
     networks:
       default:
