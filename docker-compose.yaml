@@ -1,37 +1,36 @@
 version: "3.0"
 services:
-  spark-master:
-    image: spark-master:latest
-    ports:
-      - "9090:8080"
-      - "7077:7077"
-      - "8888:8888"
-      - "4040:4040"
-      - "5001:5001"
-    volumes:
-       - ./apps:/opt/spark-apps
-       - ./data:/opt/spark-data
+  ldap-server:
+    image: ldap:latest
+    cap_add:
+        - SYS_ADMIN
     environment:
-      - "SPARK_LOCAL_IP=spark-master"
-  spark-worker:
-    image: spark-worker:latest
+      - "DEBIAN_FRONTEND=noninteractive"
+    privileged: true
+    networks:
+      default:
+        ipv4_address: 192.168.0.3
+  login-server:
+    image: head:latest
+    volumes:
+      - ./docker/head/home:/home
+      - ./docker/head/mpishare:/mpishare
+      - ./docker/head/opt:/opt
+      - ./docker/head/software:/software
+    cap_add:
+        - SYS_ADMIN
     ports:
-      - "8081"
+      - "2222:22"
     depends_on:
-      - spark-master
-    environment:
-      - SPARK_MASTER=spark://spark-master:7077
-      - SPARK_WORKER_CORES=1
-      - SPARK_WORKER_MEMORY=1G
-      - SPARK_DRIVER_MEMORY=128m
-      - SPARK_EXECUTOR_MEMORY=256m
-    volumes:
-       - ./apps:/opt/spark-apps
-       - ./data:/opt/spark-data
+      - ldap-server
+    privileged: true
+    networks:
+      default:
+        ipv4_address: 192.168.0.2
 networks:
   default:
     driver: bridge
     ipam:
       driver: default
       config:
-        - subnet:  17.18.0.1/16
+        - subnet:  192.168.1.0/16
