@@ -12,4 +12,8 @@ while [ ! -d /nfs/software/flagdir ]; do
   sleep 60
 done
 
+echo "Test mounted directory"
+df -h
+ls -l /nfs
+
 echo "Finish mounting NFS directories"

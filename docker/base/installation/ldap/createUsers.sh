@@ -1,11 +1,11 @@
 #!/bin/bash
 
-echo 'createUsersLdif'
+echo 'populate a user LDIF file'
 
 PWD_1=$(slappasswd -s rams)
 PWD_2=$(slappasswd -s goldenram)
 
-cat <<EOF > /local/repository/ldap/users.ldif
+cat <<EOF > /etc/openldap/users.ldif
 dn: uid=merino,ou=People,dc=csc,dc=wcupa,dc=edu
 objectClass: inetOrgPerson
 objectClass: posixAccount

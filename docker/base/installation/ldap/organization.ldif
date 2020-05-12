@@ -1,3 +1,8 @@
+dn: dc=csc,dc=wcupa,dc=edu
+objectClass: dcObject
+objectClass: organization
+o: West Chester University of Pennsylvania
+
 dn: ou=People,dc=csc,dc=wcupa,dc=edu
 objectClass: organizationalUnit
 ou: People
@@ -8,5 +13,5 @@ ou: Groups
 
 dn: cn=CSC,ou=Groups,dc=csc,dc=wcupa,dc=edu
 objectClass: posixGroup
-cn: EDGESC
+cn: EDGECSC
 gidNumber: 5000

@@ -1,6 +1,15 @@
 #!/bin/#!/usr/bin/env bash
 
-#bash /installation/nfs/NFS_client_config.sh
+# configure NFS server on ldap-nfs
+bash /installation/nfs/NFS_server_config.sh
+echo "Docker: finishes NFS startup ..."
 
-echo "LDAP node finished and is sleeping"
+# configure LDAP server on ldap-nfs
+cp  installation/ldap/slapd.conf /etc/openldap/
+cp  installation/ldap/organization.ldif /etc/openldap/
+cp  installation/ldap/users.ldif /etc/openldap/
+bash /installation/ldap/launch_ldap.sh
+echo "Docker: finishes LDAP startup ..."
+
+echo "Docker: ldap-nfs is sleeping"
 sleep infinity

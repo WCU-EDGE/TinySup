@@ -19,7 +19,7 @@
 #
 
 # Your LDAP server. Must be resolvable without using LDAP.
-# Multiple hosts may be specified, each separated by a 
+# Multiple hosts may be specified, each separated by a
 # space. How long nss_ldap takes to failover depends on
 # whether your LDAP client library supports configurable
 # network or connect timeouts (see bind_timelimit).
@@ -29,12 +29,7 @@
 base dc=csc,dc=wcupa,dc=edu
 
 # Another way to specify your LDAP server is to provide an
-uri ldap://192.168.1.1
-# Unix Domain Sockets to connect to a local LDAP Server.
-#uri ldap://127.0.0.1/
-#uri ldaps://127.0.0.1/   
-#uri ldapi://%2fvar%2frun%2fldapi_sock/
-# Note: %2f encodes the '/' used as directory separator
+uri ldap://192.168.0.2
 
 # The LDAP version to use (defaults to 3
 # if supported by client library)
@@ -44,7 +39,7 @@ ldap_version 3
 # Optional: default is to bind anonymously.
 #binddn cn=proxyuser,dc=padl,dc=com
 
-# The credentials to bind with. 
+# The credentials to bind with.
 # Optional: default is no credential.
 #bindpw secret
 
@@ -134,7 +129,7 @@ pam_password md5
 # Michigan LDAP server, and works with Netscape
 # Directory Server if you're using the UNIX-Crypt
 # hash mechanism and not using the NT Synchronization
-# service. 
+# service.
 #pam_password crypt
 
 # Remove old password first, then update in
