@@ -4,9 +4,9 @@ LABEL version="0.1"
 
 ENV DEBIAN_FRONTEND noninteractive
 
-COPY start_head.sh /
+RUN apt-get install -y -qqq nfs-common
 
-RUN bash /installation/nfs/NFS_head_install.sh
+COPY start_head.sh /
 
 EXPOSE 22 2049/tcp 52430/udp
 

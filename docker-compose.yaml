@@ -1,7 +1,9 @@
 version: "3.0"
 services:
-  ldap-server:
+  ldap-nfs:
     image: ldap:latest
+    volumes:
+      - ./docker/ldap/nfs:/nfs
     cap_add:
         - SYS_ADMIN
     environment:
@@ -9,24 +11,19 @@ services:
     privileged: true
     networks:
       default:
-        ipv4_address: 192.168.0.3
-  login-server:
+        ipv4_address: 192.168.0.2
+  login-scheduler:
     image: head:latest
-    volumes:
-      - ./docker/head/home:/home
-      - ./docker/head/mpishare:/mpishare
-      - ./docker/head/opt:/opt
-      - ./docker/head/software:/software
     cap_add:
         - SYS_ADMIN
     ports:
       - "2222:22"
     depends_on:
-      - ldap-server
+      - ldap-nfs
     privileged: true
     networks:
       default:
-        ipv4_address: 192.168.0.2
+        ipv4_address: 192.168.0.3
 networks:
   default:
     driver: bridge
