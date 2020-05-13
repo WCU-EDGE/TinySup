@@ -2,7 +2,7 @@
 
 set -x
 
-echo "installLdapClient.sh"
+echo "install LDAP client"
 apt-get install -y libnss-ldap libpam-ldap ldap-utils
 cat /installation/ldap/preseedClient.deb | debconf-set-selections
 dpkg-reconfigure ldap-auth-config
