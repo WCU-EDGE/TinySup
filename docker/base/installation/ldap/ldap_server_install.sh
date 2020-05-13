@@ -4,11 +4,9 @@ set -x
 
 ## Install LDAP head node
 
-echo "installLdapHead.sh"
+echo "install ldap server"
 
 # Installation
-apt-get install -y debconf-utils
-apt-get install -y slapd ldap-utils
 cat /installation/ldap/preseedHead.deb | debconf-set-selections
 dpkg-reconfigure slapd
 ufw allow ldap
