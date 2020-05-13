@@ -2,6 +2,7 @@ FROM base:latest
 LABEL author="Linh B. Ngo" email="lngo@wcupa.edu"
 LABEL version="0.1"
 
+RUN echo "#!/bin/sh\nexit 0" > /usr/sbin/policy-rc.d
 ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get install -y nfs-kernel-server runit inotify-tools kmod netbase -qq
 RUN apt-get install -y -qq debconf-utils

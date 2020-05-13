@@ -14,17 +14,16 @@ THREADSPERCORE=`lscpu | grep "Thread(s) per core:" | cut -d : -f 2 | awk '{print
 #sudo sed -i "s/ControlMachine=slurm-ctrl/ControlMachine=$HOSTNAMETRIM/g" /local/repository/slurm/slurm.conf
 SLURMMACHINELIST=worker-[1-$(($1))]
 MEM_PER_NODE=$(($3 - 1024))
-sudo sed -i "s/NodeName=SET_NODE_NAME/NodeName=$SLURMMACHINELIST/g" /local/repository/slurm/slurm.conf
-sudo sed -i "s/CPUs=SET_CPU_COUNT/CPUs=$(($2))/g" /local/repository/slurm/slurm.conf
-sudo sed -i "s/DefMemPerNode=SET_DEF_MEM_NODE/DefMemPerNode=$MEM_PER_NODE/g" /local/repository/slurm/slurm.conf
-sudo sed -i "s/Sockets=SET_SOCKET_COUNT/Sockets=$SOCKET_COUNT/g" /local/repository/slurm/slurm.conf
-sudo sed -i "s/CoresPerSocket=SET_CORES_PER_SOCKET/CoresPerSocket=$CORESPERSOCKET/g" /local/repository/slurm/slurm.conf
-sudo sed -i "s/ThreadsPerCore=SET_THREADS_PER_CORE/ThreadsPerCore=$THREADSPERCORE/g" /local/repository/slurm/slurm.conf
-sudo sed -i "s/RealMemory=SET_REAL_MEM/RealMemory=$MEM_PER_NODE/g" /local/repository/slurm/slurm.conf
+sudo sed -i "s/NodeName=SET_NODE_NAME/NodeName=$SLURMMACHINELIST/g" /installation/slurm/slurm.conf
+sudo sed -i "s/CPUs=SET_CPU_COUNT/CPUs=$(($2))/g" /installation/slurm/slurm.conf
+sudo sed -i "s/DefMemPerNode=SET_DEF_MEM_NODE/DefMemPerNode=$MEM_PER_NODE/g" /installation/slurm/slurm.conf
+sudo sed -i "s/Sockets=SET_SOCKET_COUNT/Sockets=$SOCKET_COUNT/g" /installation/slurm/slurm.conf
+sudo sed -i "s/CoresPerSocket=SET_CORES_PER_SOCKET/CoresPerSocket=$CORESPERSOCKET/g" /installation/slurm/slurm.conf
+sudo sed -i "s/ThreadsPerCore=SET_THREADS_PER_CORE/ThreadsPerCore=$THREADSPERCORE/g" /installation/slurm/slurm.conf
+sudo sed -i "s/RealMemory=SET_REAL_MEM/RealMemory=$MEM_PER_NODE/g" /installation/slurm/slurm.conf
 
 sudo DEBIAN_FRONTEND=noninteractive apt-get install -y git gcc make ruby ruby-dev libpam0g-dev libmariadb-client-lgpl-dev libmysqlclient-dev
 sudo gem install fpm
-cd /software
 
 sudo apt-get install -y libmunge-dev libmunge2 munge
 sudo systemctl enable munge
@@ -47,23 +46,23 @@ EOF
 
 sudo mysql -u root < /tmp/setupmaria.sql
 
-cd /software
+cd /nfs/software
 sudo wget https://download.schedmd.com/slurm/slurm-17.11.12.tar.bz2
 sudo tar xvjf slurm-17.11.12.tar.bz2
 cd slurm-17.11.12
-sudo ./configure --prefix=/software/slurm --sysconfdir=/etc/slurm --enable-pam --with-pam_dir=/lib/x86_64-linux-gnu/security/ --without-shared-libslurm --with-pmix
+sudo ./configure --prefix=/nfs/software/slurm --sysconfdir=/nfs/etc/slurm --enable-pam --with-pam_dir=/lib/x86_64-linux-gnu/security/ --without-shared-libslurm --with-pmix
 sudo make
 sudo make contrib
 sudo make install
 cd ..
-sudo fpm -s dir -t deb -v 1.0 -n slurm-17.11.12 --prefix=/usr -C /software/slurm .
+sudo fpm -s dir -t deb -v 1.0 -n slurm-17.11.12 --prefix=/usr -C /nfs/software/slurm .
 
-sudo dpkg -i slurm-17.11.12_1.0_amd64.deb  
+sudo dpkg -i slurm-17.11.12_1.0_amd64.deb
 #sudo useradd slurm
 sudo mkdir -p /etc/slurm /etc/slurm/prolog.d /etc/slurm/epilog.d /var/spool/slurm/ctld /var/spool/slurm/d /var/log/slurm
 sudo chown slurm /var/spool/slurm/ctld /var/spool/slurm/d /var/log/slurm
 
-sudo cp /local/repository/slurm/slurmdbd.conf /etc/slurm/slurmdbd.conf
+sudo cp /nfs/slurm/slurmdbd.conf /etc/slurm/slurmdbd.conf
 sudo chown slurm: /etc/slurm/slurmdbd.conf
 sudo chmod 755 /etc/slurm/slurmdbd.conf
 sudo touch /var/log/slurm/slurmdbd.log
@@ -71,13 +70,12 @@ sudo chown slurm: /var/log/slurm/slurmdbd.log
 sudo chmod 755 /var/log/slurm/slurmdbd.log
 
 # For the head node to use
-sudo cp /local/repository/slurm/slurm.conf /etc/slurm/
+sudo cp /nfs/slurm/slurm.conf /etc/slurm/
 sudo chown root:root /etc/slurm/slurm.conf
 sudo chmod 644 /etc/slurm/slurm.conf
 
-cd /software
-sudo cp /local/repository/slurm/slurmdbd.service /etc/systemd/system/
-sudo cp /local/repository/slurm/slurmctld.service /etc/systemd/system/
+sudo cp /nfs/slurm/slurmdbd.service /etc/systemd/system/
+sudo cp /nfs/slurm/slurmctld.service /etc/systemd/system/
 sudo chown root:root /etc/systemd/system/slurmdbd.service
 sudo chown root:root /etc/systemd/system/slurmctld.service
 sudo chmod 644 /etc/systemd/system/slurmdbd.service
@@ -95,8 +93,8 @@ sudo sacctmgr --immediate create user myuser account=compute-account adminlevel=
 
 # Copy the key and configuration for the clients to use
 sudo mkdir /software/mungedata
-sudo cp /etc/munge/munge.key /software/mungedata/
-sudo cp /local/repository/slurm/slurm.conf /software/mungedata/
+sudo cp /etc/munge/munge.key /nfs/software/mungedata/
+sudo cp /installation/slurm/slurm.conf /nfs/software/mungedata/
 
 # Remove installation-only files
 cd /software

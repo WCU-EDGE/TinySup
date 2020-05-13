@@ -7,8 +7,8 @@ ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get install -y -qq nfs-common
 RUN apt-get install -y -qq libnss-ldap libpam-ldap ldap-utils
 
-COPY start_head.sh /
+COPY start_compute.sh /
 
-EXPOSE 22 
+EXPOSE 22
 
-CMD ["/bin/bash","/start_head.sh"]
+CMD ["/bin/bash","/start_compute.sh"]

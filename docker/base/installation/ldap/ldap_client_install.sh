@@ -7,6 +7,7 @@ cat /installation/ldap/preseedClient.deb | debconf-set-selections
 dpkg-reconfigure ldap-auth-config
 dpkg-reconfigure libpam-runtime
 
+cp -rf /installation/ldap/ldap.conf.client /etc/ldap/ldap.conf
 cp -rf /installation/ldap/ldap.conf.client /etc/ldap.conf
 
 sed -i 's/compat systemd/compat systemd ldap/g' /etc/nsswitch.conf

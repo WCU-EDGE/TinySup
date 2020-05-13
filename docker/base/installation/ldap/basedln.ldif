@@ -1,8 +1,3 @@
-dn: dc=csc,dc=wcupa,dc=edu
-objectClass: dcObject
-objectClass: organization
-o: West Chester University of Pennsylvania
-
 dn: ou=People,dc=csc,dc=wcupa,dc=edu
 objectClass: organizationalUnit
 ou: People

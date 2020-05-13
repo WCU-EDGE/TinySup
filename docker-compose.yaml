@@ -9,6 +9,11 @@ services:
     environment:
       - "DEBIAN_FRONTEND=noninteractive"
     privileged: true
+    extra_hosts:
+      - "ldap:192.168.0.2"
+      - "login:192.168.0.3"
+      - "compute_1:192.168.0.4"
+      - "compute_2:192.168.0.5"
     networks:
       default:
         ipv4_address: 192.168.0.2
@@ -21,9 +26,44 @@ services:
     depends_on:
       - ldap-nfs
     privileged: true
+    extra_hosts:
+      - "ldap:192.168.0.2"
+      - "login:192.168.0.3"
+      - "compute_1:192.168.0.4"
+      - "compute_2:192.168.0.5"
     networks:
       default:
         ipv4_address: 192.168.0.3
+  compute_1:
+    image: compute:latest
+    cap_add:
+        - SYS_ADMIN
+    depends_on:
+      - login-scheduler
+    privileged: true
+    extra_hosts:
+      - "ldap:192.168.0.2"
+      - "login:192.168.0.3"
+      - "compute_1:192.168.0.4"
+      - "compute_2:192.168.0.5"
+    networks:
+      default:
+        ipv4_address: 192.168.0.4
+  compute_2:
+    image: compute:latest
+    cap_add:
+        - SYS_ADMIN
+    depends_on:
+      - login-scheduler
+    privileged: true
+    extra_hosts:
+      - "ldap:192.168.0.2"
+      - "login:192.168.0.3"
+      - "compute_1:192.168.0.4"
+      - "compute_2:192.168.0.5"
+    networks:
+      default:
+        ipv4_address: 192.168.0.5
 networks:
   default:
     driver: bridge

@@ -13,7 +13,7 @@ chmod -R 777 /nfs/home
 chmod -R 777 /nfs/software
 
 echo "#NFS Exports" > /etc/exports
-echo "/nfs *(rw,sync,no_subtree_check,fsid=0,no_root_squash)" >> /etc/exports
+echo "/nfs *(rw,sync,no_subtree_check,fsid=0,no_auth_nlm,insecure,no_root_squash)" >> /etc/exports
 
 mkdir -p /etc/sv/nfs
 cp /installation/nfs/NFS_init.sh /etc/sv/nfs/run
@@ -21,4 +21,4 @@ chmod 755 /etc/sv/nfs/run
 cp /installation/nfs/NFS_finish.sh /etc/sv/nfs/finish
 chmod 755 /etc/sv/nfs/finish
 
-exec runsvdir /etc/sv
+exec runsvdir /etc/sv &

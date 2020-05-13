@@ -4,6 +4,6 @@ LABEL version="0.1"
 
 COPY installation /installation
 
-RUN apt-get update -qqq
-RUN apt-get install -y -qqq apt-utils netbase
-RUN apt-get install -y -qqq openssh-server ufw iputils-ping iproute2
+RUN apt-get update -qq
+RUN apt-get install -y -qq apt-utils netbase vim
+RUN apt-get install -y -qq openssh-server ufw iputils-ping iproute2
