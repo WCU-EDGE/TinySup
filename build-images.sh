@@ -13,6 +13,7 @@ docker image rm compute | true
 #dos2unix docker/spark-master/start-master.sh
 
 mkdir -p docker/ldap/nfs
+chmod -R 777 docker/ldap/nfs
 
 docker build -t base:latest ./docker/base
 docker build -t ldap:latest ./docker/ldap
