@@ -3,15 +3,14 @@ services:
   ldap-nfs:
     image: ldap:latest
     volumes:
-      - ./docker/head/nfs:/nfs
+      - nfs:/nfs
     cap_add:
         - SYS_ADMIN
     privileged: true
-    networks:
-      default:
-        ipv4_address: 192.168.0.2
   login-scheduler:
     image: head:latest
+    volumes:
+      - nfs:/nfs
     depends_on:
       - ldap-nfs
     cap_add:
@@ -19,9 +18,8 @@ services:
     ports:
       - "2222:22"
     privileged: true
-    networks:
-      default:
-        ipv4_address: 192.168.0.3
+volumes:
+  nfs:
 networks:
   default:
     driver: bridge
