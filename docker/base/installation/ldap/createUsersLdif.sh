@@ -20,7 +20,7 @@ gidNumber: 5000
 userPassword: $PWD_1
 gecos: Golden Merino
 loginShell: /bin/bash
-homeDirectory: /nfs/home/merino
+homeDirectory: /home/merino
 
 dn: uid=dorper,ou=People,dc=csc,dc=wcupa,dc=edu
 objectClass: inetOrgPerson
@@ -36,7 +36,7 @@ gidNumber: 5000
 userPassword: $PWD_1
 gecos: Golden Dorper
 loginShell: /bin/bash
-homeDirectory: /nfs/home/dorper
+homeDirectory: /home/dorper
 
 dn: uid=tester,ou=People,dc=csc,dc=wcupa,dc=edu
 objectClass: inetOrgPerson
@@ -52,7 +52,7 @@ gidNumber: 5000
 userPassword: $PWD_1
 gecos: Golden Tester
 loginShell: /bin/bash
-homeDirectory: /nfs/home/tester
+homeDirectory: /home/tester
 
 dn: uid=slurm,ou=People,dc=csc,dc=wcupa,dc=edu
 objectClass: inetOrgPerson
@@ -68,5 +68,5 @@ gidNumber: 5000
 userPassword: $PWD_2
 gecos: Slurm User
 loginShell: /bin/bash
-homeDirectory: /nfs/home/slurm
+homeDirectory: /home/slurm
 EOF

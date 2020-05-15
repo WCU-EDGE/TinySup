@@ -4,7 +4,6 @@ LABEL version="0.1"
 
 ENV DEBIAN_FRONTEND noninteractive
 
-#RUN apt-get install -y -qq nfs-common
 RUN apt-get install -y -qq libnss-ldap libpam-ldap ldap-utils
 
 COPY start_compute.sh /

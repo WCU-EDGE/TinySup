@@ -3,7 +3,9 @@ services:
   ldap-nfs:
     image: ldap:latest
     volumes:
-      - nfs:/nfs
+      - home:/home
+      - opt:/opt
+      - software:/software
     cap_add:
         - SYS_ADMIN
     environment:
@@ -20,7 +22,9 @@ services:
   login-scheduler:
     image: head:latest
     volumes:
-      - nfs:/nfs
+      - home:/home
+      - opt:/opt
+      - software:/software
     cap_add:
         - SYS_ADMIN
     ports:
@@ -39,7 +43,9 @@ services:
   compute_1:
     image: compute:latest
     volumes:
-      - nfs:/nfs
+      - home:/home
+      - opt:/opt
+      - software:/software
     cap_add:
         - SYS_ADMIN
     depends_on:
@@ -56,7 +62,9 @@ services:
   compute_2:
     image: compute:latest
     volumes:
-      - nfs:/nfs
+      - home:/home
+      - opt:/opt
+      - software:/software
     cap_add:
         - SYS_ADMIN
     depends_on:
@@ -71,7 +79,9 @@ services:
       default:
         ipv4_address: 192.168.0.5
 volumes:
-  nfs:
+  home:
+  opt:
+  software:
 networks:
   default:
     driver: bridge
