@@ -4,6 +4,7 @@ set -e
 
 docker-compose down
 
+docker volume rm nfs | true
 docker image rm base | true
 docker image rm head | true
 docker image rm ldap | true

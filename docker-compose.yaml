@@ -3,7 +3,7 @@ services:
   ldap-nfs:
     image: ldap:latest
     volumes:
-      - ./docker/ldap/nfs:/nfs
+      - nfs:/nfs
     cap_add:
         - SYS_ADMIN
     environment:
@@ -19,6 +19,8 @@ services:
         ipv4_address: 192.168.0.2
   login-scheduler:
     image: head:latest
+    volumes:
+      - nfs:/nfs
     cap_add:
         - SYS_ADMIN
     ports:
@@ -36,6 +38,8 @@ services:
         ipv4_address: 192.168.0.3
   compute_1:
     image: compute:latest
+    volumes:
+      - nfs:/nfs
     cap_add:
         - SYS_ADMIN
     depends_on:
@@ -51,6 +55,8 @@ services:
         ipv4_address: 192.168.0.4
   compute_2:
     image: compute:latest
+    volumes:
+      - nfs:/nfs
     cap_add:
         - SYS_ADMIN
     depends_on:
@@ -64,6 +70,8 @@ services:
     networks:
       default:
         ipv4_address: 192.168.0.5
+volumes:
+  nfs:
 networks:
   default:
     driver: bridge

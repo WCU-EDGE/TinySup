@@ -4,7 +4,7 @@ LABEL version="0.1"
 
 RUN echo "#!/bin/sh\nexit 0" > /usr/sbin/policy-rc.d
 ENV DEBIAN_FRONTEND noninteractive
-RUN apt-get install -y nfs-kernel-server runit inotify-tools kmod netbase -qq
+#RUN apt-get install -y nfs-kernel-server runit inotify-tools kmod netbase -qq
 RUN apt-get install -y -qq debconf-utils
 RUN apt-get install -y -qq slapd ldap-utils
 RUN mkdir -p /exports
