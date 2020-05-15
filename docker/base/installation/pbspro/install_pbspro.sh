@@ -7,7 +7,8 @@ cd pbspro-19.1.3
 ./configure --prefix=/opt/pbs
 make
 make install
-#. /opt/pbs/libexec/pbs_postinstall
+. /opt/pbs/libexec/pbs_postinstall 2>&1
+
 #  sudo vi /etc/pbs.conf
 #chmod 4755 /opt/pbs/sbin/pbs_iff /opt/pbs/sbin/pbs_rcp
 #/etc/init.d/pbs start
