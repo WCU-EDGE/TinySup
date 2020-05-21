@@ -1,29 +1,75 @@
 version: "3.0"
 services:
-  ldap-nfs:
+  ldap:
     image: ldap:latest
     volumes:
-      - ./docker/ldap/nfs:/nfs
+      - home:/home
+      - opt:/opt
+      - software:/software
     cap_add:
         - SYS_ADMIN
-    environment:
-      - "DEBIAN_FRONTEND=noninteractive"
     privileged: true
     networks:
       default:
         ipv4_address: 192.168.0.2
   login-scheduler:
     image: head:latest
+    volumes:
+      - home:/home
+      - opt:/opt
+      - software:/software
     cap_add:
         - SYS_ADMIN
     ports:
       - "2222:22"
     depends_on:
-      - ldap-nfs
+      - ldap
     privileged: true
     networks:
       default:
         ipv4_address: 192.168.0.3
+  compute_1:
+    image: compute:latest
+    volumes:
+      - home:/home
+      - opt:/opt
+      - software:/software
+    cap_add:
+        - SYS_ADMIN
+    depends_on:
+      - login-scheduler
+    privileged: true
+    extra_hosts:
+      - "ldap:192.168.0.2"
+      - "login:192.168.0.3"
+      - "compute_1:192.168.0.4"
+      - "compute_2:192.168.0.5"
+    networks:
+      default:
+        ipv4_address: 192.168.0.4
+  compute_2:
+    image: compute:latest
+    volumes:
+      - home:/home
+      - opt:/opt
+      - software:/software
+    cap_add:
+        - SYS_ADMIN
+    depends_on:
+      - login-scheduler
+    privileged: true
+    extra_hosts:
+      - "ldap:192.168.0.2"
+      - "login:192.168.0.3"
+      - "compute_1:192.168.0.4"
+      - "compute_2:192.168.0.5"
+    networks:
+      default:
+        ipv4_address: 192.168.0.5
+volumes:
+  home:
+  opt:
+  software:
 networks:
   default:
     driver: bridge
